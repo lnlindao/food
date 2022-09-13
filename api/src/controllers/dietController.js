@@ -16,14 +16,18 @@ const dietTypesDb = [
   "Dairy free",
 ];
 
+/**
+ * FUNCION PARA PRE CARGAR TODOS LOS TIPOS DE DIETA EN LA BD, SE A;ADIO AL INDEX.JS DEL SERVER QUE AL CARGARLO SE RELLENE LA TABLA AUTOOMATICAMENTE
+ */
 const fillDatabase = async () => {
   dietTypesDb.forEach(async (element) => {
-    await Diet.create({ name: element });
+    await Diet.create({ name: element.toLowerCase() });
   });
   return "dietas creadas";
 };
 
 const getAllDiets = async () => {
+  //Consultar todos los datos de la tabla diets
   return await Diet.findAll();
 };
 

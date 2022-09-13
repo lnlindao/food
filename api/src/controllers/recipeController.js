@@ -47,22 +47,30 @@ const apiRecipes = async () => {
  * CONSULTAR RECETAS DE LA API SI HAY ALGUNA COINCIDENCIA POR NOMBRE
  */
 const apiRecipesByName = async (name) => {
+  //consulta a la api si el parametro recibide existe en alguna de las recetas
   try {
     let recipes = (
       await axios(
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&titleMatch=${name}&number=10`
       )
-    ).data.results.map((recipe) => ({
-      id: recipe.id,
-      name: recipe.title,
-      summary: recipe.summary,
-      healthScore: recipe.healthScore,
-      image: recipe.image,
-      steps: recipe.analyzedInstructions[0]?.steps.map((element) => ({
-        number: element.number,
-        step: element.step,
-      })),
-    }));
+    ).data.results //si existe, hago un map para recopilar todas las recetas y luego mostrarlas
+      .map((recipe) => ({
+        id: recipe.id,
+        name: recipe.title,
+        dishTypes:
+          recipe.dishTypes.length > 0
+            ? recipe.dishTypes.join(", ")
+            : recipe.dishTypes,
+        diets:
+          recipe.diets.length > 0 ? recipe.diets.join(", ") : recipe.dishTypes,
+        summary: recipe.summary,
+        healthScore: recipe.healthScore,
+        image: recipe.image,
+        steps: recipe.analyzedInstructions[0]?.steps.map((element) => ({
+          number: element.number,
+          step: element.step,
+        })),
+      }));
     /*
     let recipes = await recetasJsonLocal.results.map((recipe) => ({
       id: recipe.id,
@@ -87,6 +95,7 @@ const apiRecipesByName = async (name) => {
  * CONSULTAR RECETAS DE LA BD
  */
 const dbRecipes = async () => {
+  //consulta que devuleve todas las recetas de la bd
   try {
     return await Recipe.findAll({
       include: {
@@ -107,12 +116,14 @@ const dbRecipes = async () => {
  * CONCATENAR RECETAS DE LA API Y DE LA BD
  */
 async function getAllRecipes(name) {
+  //si se recibe algun param en la ruta, se va por esta opcion para hacer la consulta necesaria
   if (name) {
     let apiDataByName = await apiRecipesByName(name);
     let dbData = await dbRecipes();
     const allRecipesJoined = apiDataByName.concat(dbData);
     return allRecipesJoined;
-  } else {
+  } //sino recibe params, entonces se va por esta via que no envia ningun parametro a las funciones sino que lee todas las recetas y las devuelve
+  else {
     let apiData = await apiRecipes();
     let dbData = await dbRecipes();
     const allRecipesJoined = apiData.concat(dbData);
@@ -159,6 +170,7 @@ const apiRecipeById = async (id) => {
  */
 const dbRecipeById = async (id) => {
   try {
+    //consulto a la bd si el id recibido por params existe
     let foundRecipe = await Recipe.findAll(
       {
         where: { id },
@@ -185,11 +197,16 @@ const dbRecipeById = async (id) => {
  *  CONSULTAR RECETAS POR ID Y CONCATENAR RECETAS DE LA API Y DE LA BD
  */
 const getAllRecipiesById = async (id) => {
+  //consulto si alguna receta de la api tiene el id recibido por el navegador
   let apiDataById = await apiRecipeById(id);
-  let dbDataById = await dbRecipeById(id);
+  //si hay datos, los retorno
   if (apiDataById) {
     return apiDataById;
   }
+
+  //consulto si alguna receta de la bd concuerda con el Id
+  let dbDataById = await dbRecipeById(id);
+  //si hay datos, los retorno
   if (dbDataById) {
     return dbDataById;
   }
@@ -202,18 +219,23 @@ const getAllRecipiesById = async (id) => {
  */
 const createNewRecipe = async (params) => {
   const { name, summary, dietType } = params;
+
+  //sino se ha recibido name y summary por params entonces retornar msj de error
   if (!name || !summary) {
     return "Faltan parámetros de búsqueda";
-  } else {
+  }
+  //si se han recibido todos los datos, se añaden todos los parametros recibidos por body a la tabla Recipes
+  else {
     try {
+      //creo una variable 'recipeToAdd' para recibir lo creado en la base y luego poder ver los metodos disponibles para la creacion de la relacion con la tabla Diets
       const recipeToAdd = await Recipe.create({
         ...params,
       });
-      // console.log(recipeToAdd.__proto__);
-      //console.log(recipeToAdd.dataValues);
+      //  VER todos los METODOS auto creados por sequalize que se pueden utilizar para crear las relaciones entre las tablas --> console.log(recipeToAdd.__proto__);
 
+      //recibo por body el tipo de dieta y luego busco en la base si esta exista, si existe, se añade la relaciòn en la tabla intermedia
       const dietTypeAdded = await Diet.findAll({
-        where: { name: dietType },
+        where: { name: dietType.toLowerCase() },
       });
       recipeToAdd.addDiet(dietTypeAdded);
 
