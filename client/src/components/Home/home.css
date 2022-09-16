@@ -1,0 +1,72 @@
+img.loading {
+  text-align: center;
+  width: 300px;
+  position: relative;
+}
+h1.title,
+h2.title {
+  font-family: "Cookie", cursive;
+  font-size: 10vmin;
+  margin: 1rem;
+}
+select,
+input,
+button {
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 10px;
+  border-color: rgba(0, 0, 0, 0.23);
+  text-transform: capitalize;
+}
+input#name {
+  min-width: 400px;
+}
+section#controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 0 1rem;
+  justify-content: space-between;
+}
+section#controles .derecha {
+  display: flex;
+}
+
+option {
+  text-transform: capitalize;
+}
+#search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+button.search {
+  padding: 12px 30px;
+  background-color: #e74c3c;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: navajowhite;
+  color: white;
+  cursor: pointer;
+}
+button.search:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 600px) {
+  input#name {
+    min-width: auto;
+    margin: 0;
+  }
+  section#controles {
+    align-items: stretch;
+    margin: 0 0 1rem;
+    flex-direction: column;
+  }
+  section select {
+    width: 100%;
+    margin: 0.5rem 0 1rem;
+  }
+}

@@ -40,3 +40,9 @@
 /**
 CSS ADDED
 */
+.container {
+  width: 80vw;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}

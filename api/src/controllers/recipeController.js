@@ -38,8 +38,7 @@ const apiRecipes = async () => {
         recipe.dishTypes.length > 0
           ? recipe.dishTypes.join(", ")
           : recipe.dishTypes,
-      diets:
-        recipe.diets.length > 0 ? recipe.diets.join(", ") : recipe.dishTypes,
+      diets: recipe.diets.length > 0 ? recipe.diets.join(", ") : "",
       summary: recipe.summary,
       healthScore: recipe.healthScore,
       image: recipe.image,

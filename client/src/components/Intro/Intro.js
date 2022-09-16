@@ -5,10 +5,12 @@ import "./intro.css";
 const Intro = () => {
   return (
     <div className="intro">
-      <h1>Bienvenidos</h1>
-      <Link to="/home">
-        <button>Iniciar</button>
-      </Link>
+      <div className="content">
+        <h1 className="title">Bienvenidos</h1>
+        <Link to="/recipes">
+          <button className="search">Iniciar</button>
+        </Link>
+      </div>
     </div>
   );
 };

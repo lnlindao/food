@@ -51,10 +51,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      console.log("Delayed for 1 second.");
-      setLoading(false);
-    }, "2000");
     dispatch(getAllRecipes());
     dispatch(getAllRecipeTypes());
   }, [dispatch]);
@@ -106,13 +102,7 @@ const Home = () => {
         </button>
       </section>
       <section id="recipesContainer">
-        {loading ? (
-          <img
-            src="http://localhost:3000/uploads/loading1.gif"
-            className="loading"
-            alt="logo"
-          />
-        ) : Array.isArray(allRecipes) ? (
+        {Array.isArray(allRecipes) ? (
           allRecipes?.map((element) => {
             return (
               <Card

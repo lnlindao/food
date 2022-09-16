@@ -1,6 +1,7 @@
 const { Diet } = require("../db");
 
 const dietTypesDb = [
+  "All",
   "Gluten free",
   "Ketogenic",
   "Vegetarian",
@@ -8,7 +9,7 @@ const dietTypesDb = [
   "Ovo vegetarian",
   "Lacto ovo vegetarian",
   "Vegan",
-  "Pescetarian",
+  "Pescatarian",
   "Paleolithic",
   "Primal",
   "Low fodmap",

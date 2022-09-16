@@ -1,4 +1,6 @@
 import React from "react";
+import "./card.css";
+import { Link } from "react-router-dom";
 
 const dietsDb = (arrayDiets) => {
   let result = [];
@@ -10,14 +12,23 @@ const dietsDb = (arrayDiets) => {
 };
 
 const Card = (data) => {
-  const { image, name, diets } = data;
+  const { image, name, diets, id, healthScore } = data;
   return (
-    <div>
-      <h3>{name}</h3>
-      <figure>
-        <img src={image ? image : "/uploads/default_recipe.jpg"} />
-      </figure>
-      <div>{Array.isArray(diets) ? dietsDb(diets) : diets}</div>
+    <div
+      className="card"
+      style={{
+        backgroundImage: image
+          ? `url(${image}`
+          : "url(/uploads/default_recipe.jpg)",
+      }}
+    >
+      <Link to={`/recipe/${id}`}>
+        <h3 className="title">{name}</h3>
+        <div className="diets">
+          {Array.isArray(diets) ? dietsDb(diets) : diets}
+          <p>HS: {healthScore}</p>
+        </div>
+      </Link>
     </div>
   );
 };

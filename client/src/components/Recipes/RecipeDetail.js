@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getRecipeDetail } from "../../redux/actions";
@@ -48,7 +48,10 @@ const RecipeDetail = () => {
               </div>
             </div>
 
-            <img src={image ? image : "/uploads/default_recipe.jpg"} />
+            <img
+              src={image ? image : "/uploads/default_recipe.jpg"}
+              alt="default recipe"
+            />
 
             <div>
               <p>

@@ -32,3 +32,34 @@ export const getAllRecipeTypes = () => {
       });
   };
 };
+
+export const getRecipesByDiet = (value) => {
+  return {
+    type: "GET_RECIPE_BY_DIET",
+    payload: value,
+  };
+};
+
+export const orderByName = (value) => {
+  return {
+    type: "ORDER_BY_NAME",
+    payload: value,
+  };
+};
+
+export const orderByHealthScore = (value) => {
+  return {
+    type: "ORDER_BY_HEALTH",
+    payload: value,
+  };
+};
+
+export const SearchByName = (name) => {
+  return function (dispatch) {
+    return axios(`http://localhost:3001/recipes?name=${name}`)
+      .then((r) => r.data)
+      .then((recipeFound) => {
+        dispatch({ type: "SEARCH_DIET_BY_NAME", payload: recipeFound });
+      });
+  };
+};
