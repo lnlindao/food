@@ -8,6 +8,7 @@ const recetasJsonLocal = require("../../../utils/recetas.json");
  */
 const apiRecipes = async () => {
   try {
+    /*
     let recipes = (
       await axios(
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`
@@ -15,6 +16,12 @@ const apiRecipes = async () => {
     ).data.results.map((recipe) => ({
       id: recipe.id,
       name: recipe.title,
+      dishTypes:
+        recipe.dishTypes.length > 0
+          ? recipe.dishTypes.join(", ")
+          : recipe.dishTypes,
+      diets:
+        recipe.diets.length > 0 ? recipe.diets.join(", ") : recipe.dishTypes,
       summary: recipe.summary,
       healthScore: recipe.healthScore,
       image: recipe.image,
@@ -23,19 +30,25 @@ const apiRecipes = async () => {
         step: element.step,
       })),
     }));
-    /*
-      let recipes = await recetasJsonLocal.results.map((recipe) => ({
-        id: recipe.id,
-        name: recipe.title,
-        summary: recipe.summary,
-        healthScore: recipe.healthScore,
-        image: recipe.image,
-        steps: recipe.analyzedInstructions[0]?.steps.map((element) => ({
-          number: element.number,
-          step: element.step,
-        })),
-      }));
-  */
+    */
+    let recipes = await recetasJsonLocal.results.map((recipe) => ({
+      id: recipe.id,
+      name: recipe.title,
+      dishTypes:
+        recipe.dishTypes.length > 0
+          ? recipe.dishTypes.join(", ")
+          : recipe.dishTypes,
+      diets:
+        recipe.diets.length > 0 ? recipe.diets.join(", ") : recipe.dishTypes,
+      summary: recipe.summary,
+      healthScore: recipe.healthScore,
+      image: recipe.image,
+      steps: recipe.analyzedInstructions[0]?.steps.map((element) => ({
+        number: element.number,
+        step: element.step,
+      })),
+    }));
+
     return recipes;
   } catch (error) {
     console.error(error);
@@ -100,6 +113,7 @@ const dbRecipes = async () => {
     return await Recipe.findAll({
       include: {
         model: Diet,
+        as: "diets",
         attributes: ["name"],
         through: {
           attributes: [],
@@ -124,9 +138,9 @@ async function getAllRecipes(name) {
     return allRecipesJoined;
   } //sino recibe params, entonces se va por esta via que no envia ningun parametro a las funciones sino que lee todas las recetas y las devuelve
   else {
-    let apiData = await apiRecipes();
     let dbData = await dbRecipes();
-    const allRecipesJoined = apiData.concat(dbData);
+    let apiData = await apiRecipes();
+    const allRecipesJoined = dbData.concat(apiData);
     return allRecipesJoined;
   }
 }
@@ -170,26 +184,27 @@ const apiRecipeById = async (id) => {
  */
 const dbRecipeById = async (id) => {
   try {
+    console.log(typeof recipeId);
     //consulto a la bd si el id recibido por params existe
-    let foundRecipe = await Recipe.findAll(
-      {
-        where: { id },
-      },
-      {
-        include: {
-          model: Diet,
-          attributes: ["name"],
-          through: {
-            attributes: [],
-          },
+    let foundRecipe = await Recipe.findAll({
+      where: { id },
+
+      include: {
+        model: Diet,
+        as: "diets",
+        attributes: ["name"],
+        through: {
+          attributes: [],
         },
-      }
-    );
-    //console.log("foundRecipe", foundRecipe.length);
+      },
+    });
+    //console.log(JSON.stringify(foundRecipe, null, 2));
+    //console.log("foundRecipe", await foundRecipe);
+
     return foundRecipe ? foundRecipe : [];
   } catch (error) {
     console.error("recipeController => dbRecipeById", error);
-    return [];
+    return "[]";
   }
 };
 
@@ -198,18 +213,38 @@ const dbRecipeById = async (id) => {
  */
 const getAllRecipiesById = async (id) => {
   //consulto si alguna receta de la api tiene el id recibido por el navegador
-  let apiDataById = await apiRecipeById(id);
-  //si hay datos, los retorno
-  if (apiDataById) {
-    return apiDataById;
-  }
 
-  //consulto si alguna receta de la bd concuerda con el Id
+  //si el ID es UUID consultarlo en la DB, sino ir a la API
+  // Regular expression to check if string is a valid UUID
+  const regexExp =
+    /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+
+  if (regexExp.test(id)) {
+    //consulto si alguna receta de la bd concuerda con el Id
+    let dbDataById = await dbRecipeById(id);
+    //si hay datos, los retorno
+    if (dbDataById) {
+      return dbDataById;
+    }
+    return "Id no encontrado";
+  } else {
+    //sino se encontraron en la bd, se busca en la api
+    let apiDataById = await apiRecipeById(id);
+    //si hay datos, los retorno
+    if (apiDataById) {
+      return apiDataById;
+    }
+    return "Id no encontrado";
+  }
+  /*
   let dbDataById = await dbRecipeById(id);
-  //si hay datos, los retorno
   if (dbDataById) {
     return dbDataById;
   }
+  let apiDataById = await apiRecipeById(id);
+  if (apiDataById) {
+    return apiDataById;
+  }*/
 };
 
 /**
@@ -237,7 +272,7 @@ const createNewRecipe = async (params) => {
       const dietTypeAdded = await Diet.findAll({
         where: { name: dietType.toLowerCase() },
       });
-      recipeToAdd.addDiet(dietTypeAdded);
+      recipeToAdd.addDiets(dietTypeAdded);
 
       return recipeToAdd;
     } catch (error) {}
