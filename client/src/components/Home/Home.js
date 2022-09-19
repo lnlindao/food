@@ -54,8 +54,12 @@ const Home = () => {
     setTimeout(() => {
       console.log("Delayed for 1 second.");
       setLoading(false);
-    }, "2000");
-    dispatch(getAllRecipes());
+
+      //cargo todos los cards de recetas
+      dispatch(getAllRecipes());
+    }, "1000");
+
+    //cargo todos los tipos de dieta
     dispatch(getAllRecipeTypes());
   }, [dispatch]);
 

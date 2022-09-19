@@ -1,0 +1,32 @@
+header {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+div#logo a {
+  font-family: "Cookie", cursive;
+  font-size: 2.5rem;
+  margin: 1rem;
+  min-width: 9rem;
+  position: relative;
+  color: #e74c3c;
+  text-decoration: none;
+  display: block;
+}
+div#logo span {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 0.8rem;
+  position: absolute;
+  bottom: -2px;
+  left: 3.8rem;
+  color: black;
+}
+header ul {
+  list-style: none;
+  display: flex;
+}
+header ul li {
+  padding: 0 2rem;
+}
