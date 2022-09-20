@@ -24,10 +24,12 @@ function validateForm(dataFromInput) {
     errors.healthScore = "Ingrese un valor numérico entre 0 y 10";
   }
   //validar que se haya seleccionado al menos 1 dieta
-
-  if (!dataFromInput.diets.length) {
-    errors.diets = "Seleccione al menos 1 tipo de dieta";
+  if (dataFromInput.dietType.length === 0) {
+    errors.dietType = "Seleccione al menos 1 tipo de dieta";
   }
+
+  console.log("dataFromInput.dietType.length", dataFromInput.dietType.length);
+  console.log("errors", errors);
   return errors;
 }
 
@@ -48,10 +50,10 @@ const CreateRecipe = () => {
     summary: "",
     healthScore: "",
     steps: "",
-    diets: [],
+    dietType: [],
   });
 
-  //controlo los input de tipo texto
+  //controlo todos los input del formulario
   const handleChange = (e) => {
     //comprobar los input que no sean checkbox
     if (e.target.type !== "checkbox") {
@@ -63,19 +65,19 @@ const CreateRecipe = () => {
     //comprombar los checkbox
     else {
       const { value, checked } = e.target;
-      const diets = input.diets;
+      const diets = input.dietType;
       // Case 1 : el usuario chequea el box
       if (checked) {
         setInput({
           ...input,
-          diets: [...diets, value],
+          dietType: [...diets, value],
         });
       }
       // Case 2 : el usuario quita el check
       else {
         setInput({
           ...input,
-          diets: diets.filter((e) => e !== value),
+          dietType: diets.filter((e) => e !== value),
         });
       }
     }
@@ -95,13 +97,14 @@ const CreateRecipe = () => {
     let messageFromForm = document.getElementById("messageFromForm");
     dispatch(createRecipe(input));
     messageFromForm.innerHTML = `<div class="msg">Receta creada</div>`;
+    /*
     setInput({
       name: "",
       summary: "",
       healthScore: "",
       steps: "",
-      diets: [],
-    });
+      dietType: [],
+    });*/
   };
 
   useEffect(() => {
@@ -159,7 +162,7 @@ const CreateRecipe = () => {
         </div>
 
         <label>Tipo de dieta*:</label>
-        {errors.diets && <p className="errors">{errors.diets}</p>}
+        {errors.dietType && <p className="errors">{errors.dietType}</p>}
 
         <div className="diets">
           {allDiets.map(({ name }, index) => {
@@ -168,7 +171,7 @@ const CreateRecipe = () => {
                 <input
                   type={"checkbox"}
                   value={name}
-                  name={"diets"}
+                  name={"dietType"}
                   onChange={(e) => handleChange(e)}
                 />
                 {name}

@@ -51,13 +51,10 @@ const Home = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      console.log("Delayed for 1 second.");
-      setLoading(false);
+    setLoading(false);
 
-      //cargo todos los cards de recetas
-      dispatch(getAllRecipes());
-    }, "1000");
+    //cargo todos los cards de recetas
+    dispatch(getAllRecipes());
 
     //cargo todos los tipos de dieta
     dispatch(getAllRecipeTypes());

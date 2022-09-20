@@ -1,7 +1,6 @@
 const { Diet } = require("../db");
 
 const dietTypesDb = [
-  "All",
   "Gluten free",
   "Ketogenic",
   "Vegetarian",
@@ -22,7 +21,7 @@ const dietTypesDb = [
  */
 const fillDatabase = async () => {
   dietTypesDb.forEach(async (element) => {
-    await Diet.create({ name: element.toLowerCase() });
+    await Diet.findOrCreate({ where: { name: element.toLowerCase() } });
   });
   return "dietas creadas";
 };

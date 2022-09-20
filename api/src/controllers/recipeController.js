@@ -252,24 +252,29 @@ const getAllRecipiesById = async (id) => {
  *
  */
 const createNewRecipe = async (params) => {
-  const { name, summary, dietType } = params;
+  const { name, summary, healthScore, image, steps, dietType } = params;
 
   //sino se ha recibido name y summary por params entonces retornar msj de error
-  if (!name || !summary) {
-    return "Faltan parámetros de búsqueda";
+  if (!name || !summary || !dietType) {
+    return "Faltan datos";
   }
   //si se han recibido todos los datos, se añaden todos los parametros recibidos por body a la tabla Recipes
   else {
     try {
+      console.log("params", dietType);
       //creo una variable 'recipeToAdd' para recibir lo creado en la base y luego poder ver los metodos disponibles para la creacion de la relacion con la tabla Diets
       const recipeToAdd = await Recipe.create({
-        ...params,
+        name,
+        summary,
+        healthScore,
+        image,
+        steps,
       });
       //  VER todos los METODOS auto creados por sequalize que se pueden utilizar para crear las relaciones entre las tablas --> console.log(recipeToAdd.__proto__);
 
       //recibo por body el tipo de dieta y luego busco en la base si esta exista, si existe, se añade la relaciòn en la tabla intermedia
       const dietTypeAdded = await Diet.findAll({
-        where: { name: dietType.toLowerCase() },
+        where: { name: dietType },
       });
       recipeToAdd.addDiets(dietTypeAdded);
 
