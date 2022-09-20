@@ -23,10 +23,11 @@ div#logo span {
   left: 3.8rem;
   color: black;
 }
-header ul {
-  list-style: none;
+header nav {
   display: flex;
 }
-header ul li {
-  padding: 0 2rem;
+header nav a {
+  padding: 0 1rem;
+  text-decoration: none;
+  color: #000;
 }

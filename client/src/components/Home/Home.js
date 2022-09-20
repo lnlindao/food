@@ -25,7 +25,7 @@ const Home = () => {
   const [sortedByHealth, setsortedByHealth] = useState("");
 
   const allRecipes = useSelector((state) => state.recipes);
-  const AllDiets = useSelector((state) => state.recipeType);
+  const AllDiets = useSelector((state) => state.diets);
 
   //filtrado por tipo de dieta
   function getAllRecipesToRender() {

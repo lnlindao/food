@@ -42,7 +42,7 @@ CSS ADDED
 */
 .container {
   width: 80vw;
-  margin: auto;
+  margin: 1rem auto 3rem;
   display: flex;
   flex-direction: column;
 }

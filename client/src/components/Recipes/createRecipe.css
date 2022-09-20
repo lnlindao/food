@@ -1,0 +1,31 @@
+form div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 2rem 0;
+}
+form div > * {
+  margin: 0;
+}
+form label {
+  padding: 0.5rem 0;
+}
+form .diets {
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+form .diets > * {
+  padding: 0 93px;
+  width: 200px;
+}
+form #messageFromForm .msg {
+  background-color: rgb(237, 247, 237);
+  color: #1e4620;
+  padding: 8px 16px;
+}
+form p.errors {
+  background-color: rgb(253, 237, 237);
+  padding: 8px 16px;
+}

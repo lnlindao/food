@@ -11,13 +11,14 @@ h2.title {
 }
 select,
 input,
-button {
+button,
+textarea {
   padding: 10px;
   border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
   margin: 0 10px;
-  border-color: rgba(0, 0, 0, 0.23);
-  text-transform: capitalize;
 }
+
 input#name {
   min-width: 400px;
 }
@@ -30,6 +31,9 @@ section#controles {
 }
 section#controles .derecha {
   display: flex;
+}
+section#controles input {
+  text-transform: capitalize;
 }
 
 option {

@@ -63,3 +63,11 @@ export const SearchByName = (name) => {
       });
   };
 };
+
+export const createRecipe = (props) => {
+  return function () {
+    return axios
+      .post(`http://localhost:3001/recipes`, props)
+      .then((response) => response);
+  };
+};

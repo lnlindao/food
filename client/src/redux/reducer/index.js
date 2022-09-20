@@ -2,7 +2,7 @@ const initialState = {
   recipes: [],
   allRecipes: [],
   recipeDetail: [],
-  recipeType: [],
+  diets: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -22,7 +22,7 @@ const rootReducer = (state = initialState, action) => {
     case "GET_ALL_DIETS":
       return {
         ...state,
-        recipeType: payload,
+        diets: payload,
       };
     case "SEARCH_DIET_BY_NAME":
       console.log(payload);
@@ -89,6 +89,8 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         recipes: result,
       };
+    case "CREATE_RECIPE":
+      return { ...state };
     default:
       return state;
   }
