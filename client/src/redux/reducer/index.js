@@ -25,7 +25,6 @@ const rootReducer = (state = initialState, action) => {
         diets: payload,
       };
     case "SEARCH_DIET_BY_NAME":
-      console.log(payload);
       return {
         ...state,
         recipes: payload,
@@ -33,8 +32,11 @@ const rootReducer = (state = initialState, action) => {
     case "ORDER_BY_HEALTH":
       let ordered =
         payload === "low"
-          ? state.recipes.sort((a, b) => a.healthScore - b.healthScore)
-          : state.recipes.sort((a, b) => b.healthScore - a.healthScore);
+          ? state.recipes.sort(
+              (a, b) => parseInt(a.healthScore) - parseInt(b.healthScore) //ASC
+            )
+          : state.recipes.sort((a, b) => b.healthScore - a.healthScore); //DESC
+
       return {
         ...state,
         recipes: ordered,
@@ -73,18 +75,16 @@ const rootReducer = (state = initialState, action) => {
       let result =
         payload === "all"
           ? allRecipes
-          : allRecipes.filter(
-              //para las recetas que vienen de la api
-              (e) => {
-                if (typeof e.diets === "string") {
-                  diet = e.diets.split(",").join("");
-                  return diet.includes(payload);
-                }
-                //para las recetas que vienen de la DB
-                let recipesDb = e.diets.map((e) => e.name);
-                return recipesDb.includes(payload);
+          : allRecipes.filter((e) => {
+              //para las recetas que vienen de la api que ya las devuelvo en tipo texto
+              if (typeof e.diets === "string") {
+                diet = e.diets.split(",").join("");
+                return diet.includes(payload);
               }
-            );
+              //para las recetas que vienen de la DB
+              let recipesDb = e.diets.map((e) => e.name);
+              return recipesDb.includes(payload);
+            });
       return {
         ...state,
         recipes: result,

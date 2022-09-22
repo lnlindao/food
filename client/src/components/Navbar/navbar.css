@@ -1,7 +1,18 @@
 header {
-  position: relative;
+  background-color: #ebebeb;
+}
+header nav {
   display: flex;
   align-items: center;
+}
+header .container {
+  flex-direction: row;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerHidden {
+  display: none;
 }
 div#logo a {
   font-family: "Cookie", cursive;
@@ -23,9 +34,7 @@ div#logo span {
   left: 3.8rem;
   color: black;
 }
-header nav {
-  display: flex;
-}
+
 header nav a {
   padding: 0.5rem 1rem;
   text-decoration: none;

@@ -63,7 +63,7 @@ const apiRecipesByName = async (name) => {
   try {
     let recipes = (
       await axios(
-        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&titleMatch=${name}&number=10`
+        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&titleMatch=${name}&number=100`
       )
     ).data.results //si existe, hago un map para recopilar todas las recetas y luego mostrarlas
       .map((recipe) => ({
@@ -252,7 +252,12 @@ const getAllRecipiesById = async (id) => {
  *
  */
 const createNewRecipe = async (params) => {
-  const { name, summary, healthScore, image, steps, dietType } = params;
+  const { name, summary, healthScoreString, image, steps, dietType } = params;
+
+  //si el usuario no ingresa el score, entonces se transforma a null para que pueda guardarse bien la receta
+  healthScoreString === undefined
+    ? (healthScore = null)
+    : (healthScore = parseInt(healthScoreString));
 
   //sino se ha recibido name y summary por params entonces retornar msj de error
   if (!name || !summary || !dietType) {
@@ -261,7 +266,6 @@ const createNewRecipe = async (params) => {
   //si se han recibido todos los datos, se añaden todos los parametros recibidos por body a la tabla Recipes
   else {
     try {
-      console.log("params", dietType);
       //creo una variable 'recipeToAdd' para recibir lo creado en la base y luego poder ver los metodos disponibles para la creacion de la relacion con la tabla Diets
       const recipeToAdd = await Recipe.create({
         name,

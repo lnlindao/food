@@ -58,6 +58,26 @@ button.search {
 button.search:hover {
   background-color: #c0392b;
 }
+.primary {
+  padding: 10px 2rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.primary:enabled {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 2rem;
+  cursor: pointer;
+  align-items: center;
+}
+.primary:enabled:hover {
+  background-color: #c0392b;
+}
+span#alert {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
 
 @media (max-width: 600px) {
   input#name {
@@ -72,5 +92,9 @@ button.search:hover {
   section select {
     width: 100%;
     margin: 0.5rem 0 1rem;
+  }
+
+  button {
+    margin: 0;
   }
 }

@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./home.css";
 import {
@@ -11,23 +10,22 @@ import {
 } from "../../redux/actions";
 
 //Components
-import Card from "../Recipes/Card";
 import Searchbar from "../Searchbar/Searchbar";
+import Paging from "../Paging/Paging";
+import RecipeDetailContainer from "../Recipes/RecipeDetailContainer";
 
 const Home = () => {
   const dispatch = useDispatch();
-
-  //loader hasta que se cargan las recetas
-  const [loading, setLoading] = useState([true]);
+  //estado global de todas las recetas
+  const allRecipes = useSelector((state) => state.recipes);
 
   //estado local para realizar el ordenamiento por nombre
   const [sorted, setSortedRecipes] = useState("");
   const [sortedByHealth, setsortedByHealth] = useState("");
 
-  const allRecipes = useSelector((state) => state.recipes);
   const AllDiets = useSelector((state) => state.diets);
 
-  //filtrado por tipo de dieta
+  //mostrar de nuevo todas las recetas => boton VER TODO
   function getAllRecipesToRender() {
     dispatch(getAllRecipes());
   }
@@ -41,24 +39,26 @@ const Home = () => {
   function sortRecipesByName(e) {
     //NO ENTIENDOOOOOOO POR QUE HAY QUE AGREGAR AQUI UN ESTADO QUE NO HACE NADA MAS QUE GUARDAR EL VALUE Y EN EL DE TIPO DE DIETAS NOOOOO
     setSortedRecipes(e.target.value);
+    console.log(sorted);
     dispatch(orderByName(e.target.value));
   }
 
   //ordenamiento por healthScore
   function sortRecipesByHealthScore(e) {
     setsortedByHealth(e.target.value);
+    console.log("sorted", sortedByHealth);
     dispatch(orderByHealthScore(e.target.value));
   }
 
   useEffect(() => {
-    setLoading(false);
-
-    //cargo todos los cards de recetas
-    dispatch(getAllRecipes());
-
-    //cargo todos los tipos de dieta
+    //cargo todos los tipos de dieta EN EL INPUT
     dispatch(getAllRecipeTypes());
   }, [dispatch]);
+
+  //estados para el paginado
+  const [page, setPage] = useState(1);
+  const recipesPerPage = 9;
+  const max = allRecipes.length / recipesPerPage;
 
   return (
     <div className="container">
@@ -85,7 +85,7 @@ const Home = () => {
             </select>
           </div>
           <div>
-            Tipo de dieta:
+            Filtrar por tipo de dieta:
             <select onChange={(e) => handleFilterRecipeByDiet(e)}>
               {AllDiets.map((t) => {
                 return (
@@ -107,28 +107,10 @@ const Home = () => {
         </button>
       </section>
       <section id="recipesContainer">
-        {loading ? (
-          <img
-            src="http://localhost:3000/uploads/loading1.gif"
-            className="loading"
-            alt="logo"
-          />
-        ) : Array.isArray(allRecipes) ? (
-          allRecipes?.map((element) => {
-            return (
-              <Card
-                key={element.id}
-                id={element.id}
-                image={element.image}
-                name={element.name}
-                diets={element.diets}
-                healthScore={element.healthScore}
-              />
-            );
-          })
-        ) : (
-          <span>No se han encontrado coincidencias</span>
-        )}
+        <RecipeDetailContainer page={page} recipesPerPage={recipesPerPage} />
+      </section>
+      <section id="paginado">
+        <Paging page={page} setPage={setPage} max={max} />
       </section>
     </div>
   );

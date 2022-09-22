@@ -1,0 +1,32 @@
+section#paginado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4rem auto;
+  flex-wrap: wrap;
+}
+.pagingNumber {
+  width: 15px;
+  text-align: center;
+}
+button.secondary {
+  padding: 10px 2rem;
+}
+button img {
+  padding-right: 1rem;
+  width: 1rem;
+}
+button.secondary:enabled {
+  background-color: #333;
+  color: white;
+  padding: 10px 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+button.secondary:enabled:hover {
+  background-color: #e74c3c;
+}
+.mh {
+  margin: 0 1rem;
+}

@@ -46,3 +46,8 @@ CSS ADDED
   display: flex;
   flex-direction: column;
 }
+@media (max-width: 600px) {
+  .container {
+    width: 90vw;
+  }
+}

@@ -10,7 +10,7 @@ import CreateRecipe from "./components/Recipes/CreateRecipe";
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar location={window.location.pathname} />
       <Routes>
         <Route path="/" element={<Intro />}></Route>
         <Route path="/recipes" element={<Home />}></Route>

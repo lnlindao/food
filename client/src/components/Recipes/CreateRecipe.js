@@ -6,10 +6,14 @@ import "./createRecipe.css";
 
 //recibe los datos de los input y verficia errores
 function validateForm(dataFromInput) {
+  //para verificar que solo se ingrese texto y espacios en el nombre de la receta
+  var regex = new RegExp("^[a-zA-Z ]+$");
+
   let errors = {};
+
   //validacion del nombre de la receta
-  if (!dataFromInput.name) {
-    errors.name = "Ingrese un nombre";
+  if (!dataFromInput.name || !regex.test(dataFromInput.name)) {
+    errors.name = "Ingrese un nombre válido";
   }
   //validacion del resumen
   if (!dataFromInput.summary) {
@@ -17,8 +21,9 @@ function validateForm(dataFromInput) {
   }
   //validar saludable que sea numero y que sea entre 0 y 10
   if (
+    dataFromInput.healthScore ||
     dataFromInput.healthScore < 0 ||
-    dataFromInput.healthScore > 10 ||
+    dataFromInput.healthScore > 100 ||
     isNaN(dataFromInput.healthScore)
   ) {
     errors.healthScore = "Ingrese un valor numérico entre 0 y 10";
@@ -27,8 +32,6 @@ function validateForm(dataFromInput) {
   if (dataFromInput.dietType.length === 0) {
     errors.dietType = "Seleccione al menos 1 tipo de dieta";
   }
-
-  console.log("dataFromInput.dietType.length", dataFromInput.dietType.length);
   console.log("errors", errors);
   return errors;
 }
@@ -48,8 +51,8 @@ const CreateRecipe = () => {
   const [input, setInput] = useState({
     name: "",
     summary: "",
-    healthScore: "",
     steps: "",
+    healthScore: "",
     dietType: [],
   });
 
@@ -81,7 +84,6 @@ const CreateRecipe = () => {
         });
       }
     }
-    console.log("input", input);
 
     setErrors(
       validateForm({
@@ -97,29 +99,36 @@ const CreateRecipe = () => {
     let messageFromForm = document.getElementById("messageFromForm");
     dispatch(createRecipe(input));
     messageFromForm.innerHTML = `<div class="msg">Receta creada</div>`;
-    /*
+
     setInput({
       name: "",
       summary: "",
       healthScore: "",
       steps: "",
-      dietType: [],
-    });*/
+      dietType: [""],
+    });
   };
 
   useEffect(() => {
     dispatch(getAllRecipeTypes());
     setErrors({ errors: "" });
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="container">
-      <Link onClick={() => navigate(-1)}>
-        <button className="search" type="submit">
-          regresar
-        </button>
-      </Link>
-      <h1>Crear una receta</h1>
+      <div>
+        <Link onClick={() => navigate(-1)}>
+          <button className="secondary" type="submit">
+            <img
+              alt="arrow left"
+              src="https://assets-global.website-files.com/5fa5ee97e1eb253b5efc0385/61537f4f2d87afd3cd9b1ce8_arrow-left-2.png"
+            />{" "}
+            Regresar
+          </button>
+        </Link>
+        <h1>Crear una receta</h1>
+      </div>
+
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <label>Nombre*: </label>
@@ -144,7 +153,7 @@ const CreateRecipe = () => {
         <div>
           <label>Nivel de saludable: </label>
           <input
-            type={"text"}
+            type={"number"}
             value={input.healthScore}
             name="healthScore"
             onChange={(e) => handleChange(e)}
@@ -153,8 +162,8 @@ const CreateRecipe = () => {
         </div>
         <div>
           <label>Preparación: </label>
-          <input
-            type={"text"}
+          <textarea
+            rows="4"
             value={input.steps}
             name="steps"
             onChange={(e) => handleChange(e)}
@@ -179,16 +188,12 @@ const CreateRecipe = () => {
             );
           })}
         </div>
-        {Object.values(errors).length === 0 ? (
-          <input type={"submit"} value="Crear" className="search" />
-        ) : (
-          <input
-            type={"submit"}
-            disabled="disabled"
-            value="Crear"
-            className="search"
-          />
-        )}
+        <input
+          type={"submit"}
+          value="Crear"
+          className="primary"
+          disabled={Object.values(errors).length !== 0 && "disabled"}
+        />
 
         <div id="messageFromForm"></div>
       </form>
