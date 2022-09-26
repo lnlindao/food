@@ -8,7 +8,6 @@ const recetasJsonLocal = require("../../../utils/recetas.json");
  */
 const apiRecipes = async () => {
   try {
-    /*
     let recipes = (
       await axios(
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
@@ -30,7 +29,7 @@ const apiRecipes = async () => {
         step: element.step,
       })),
     }));
-*/
+    /*
     let recipes = await recetasJsonLocal.results.map((recipe) => ({
       id: recipe.id,
       name: recipe.title,
@@ -47,6 +46,8 @@ const apiRecipes = async () => {
         step: element.step,
       })),
     }));
+    */
+
     return recipes;
   } catch (error) {
     console.error(error);
