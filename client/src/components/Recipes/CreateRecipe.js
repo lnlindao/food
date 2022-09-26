@@ -13,26 +13,21 @@ function validateForm(dataFromInput) {
 
   //validacion del nombre de la receta
   if (!dataFromInput.name || !regex.test(dataFromInput.name)) {
-    errors.name = "Ingrese un nombre válido";
+    errors.name = "Please enter a valid name";
   }
   //validacion del resumen
   if (!dataFromInput.summary) {
-    errors.summary = "Ingrese un resumen del plato";
+    errors.summary = "Enter a summary of the dish";
   }
   //validar saludable que sea numero y que sea entre 0 y 10
-  if (
-    dataFromInput.healthScore ||
-    dataFromInput.healthScore < 0 ||
-    dataFromInput.healthScore > 100 ||
-    isNaN(dataFromInput.healthScore)
-  ) {
-    errors.healthScore = "Ingrese un valor numérico entre 0 y 10";
+  if (dataFromInput.healthScore < 0 || dataFromInput.healthScore > 100) {
+    errors.healthScore = "Enter a numeric value between 0 and 100";
   }
   //validar que se haya seleccionado al menos 1 dieta
   if (dataFromInput.dietType.length === 0) {
-    errors.dietType = "Seleccione al menos 1 tipo de dieta";
+    errors.dietType = "Select at least 1 type of diet";
   }
-  console.log("errors", errors);
+  // console.log("errors", errors);
   return errors;
 }
 
@@ -64,7 +59,10 @@ const CreateRecipe = () => {
         ...input,
         [e.target.name]: e.target.value,
       });
+
+      // console.log("input", input);
     }
+
     //comprombar los checkbox
     else {
       const { value, checked } = e.target;
@@ -97,8 +95,18 @@ const CreateRecipe = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let messageFromForm = document.getElementById("messageFromForm");
-    dispatch(createRecipe(input));
-    messageFromForm.innerHTML = `<div class="msg">Receta creada</div>`;
+    input.healthScore.length === 0
+      ? dispatch(
+          createRecipe({
+            name: input.name,
+            summary: input.summary,
+            image: input.image,
+            steps: input.steps,
+            dietType: input.dietType,
+          })
+        )
+      : dispatch(createRecipe(input));
+    messageFromForm.innerHTML = `<div class="msg">Recipe created</div>`;
 
     setInput({
       name: "",
@@ -123,15 +131,15 @@ const CreateRecipe = () => {
               alt="arrow left"
               src="https://assets-global.website-files.com/5fa5ee97e1eb253b5efc0385/61537f4f2d87afd3cd9b1ce8_arrow-left-2.png"
             />{" "}
-            Regresar
+            Back
           </button>
         </Link>
-        <h1>Crear una receta</h1>
+        <h1>Create a recipe</h1>
       </div>
 
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
-          <label>Nombre*: </label>
+          <label>Dish name*: </label>
           <input
             type={"text"}
             value={input.name}
@@ -141,7 +149,7 @@ const CreateRecipe = () => {
           {errors.name && <p className="errors">{errors.name}</p>}
         </div>
         <div>
-          <label>Resumen*: </label>
+          <label>Description*: </label>
           <textarea
             rows="4"
             value={input.summary}
@@ -151,7 +159,7 @@ const CreateRecipe = () => {
           {errors.summary && <p className="errors">{errors.summary}</p>}
         </div>
         <div>
-          <label>Nivel de saludable: </label>
+          <label>Health score (0 to 100): </label>
           <input
             type={"number"}
             value={input.healthScore}
@@ -161,7 +169,7 @@ const CreateRecipe = () => {
           {errors.healthScore && <p className="errors">{errors.healthScore}</p>}
         </div>
         <div>
-          <label>Preparación: </label>
+          <label>Directions: </label>
           <textarea
             rows="4"
             value={input.steps}
@@ -170,7 +178,7 @@ const CreateRecipe = () => {
           />
         </div>
 
-        <label>Tipo de dieta*:</label>
+        <label>Diet type*:</label>
         {errors.dietType && <p className="errors">{errors.dietType}</p>}
 
         <div className="diets">
@@ -190,7 +198,7 @@ const CreateRecipe = () => {
         </div>
         <input
           type={"submit"}
-          value="Crear"
+          value="CREATE"
           className="primary"
           disabled={Object.values(errors).length !== 0 && "disabled"}
         />

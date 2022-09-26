@@ -15,7 +15,7 @@
   overflow: hidden;
   background-size: cover;
 }
-.card a {
+.card .link {
   background: linear-gradient(0deg, rgb(0 0 0 / 90%) 10%, transparent 100%);
   display: flex;
   bottom: 0;
@@ -31,8 +31,9 @@
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-end;
+  cursor: pointer;
 }
-.card a:hover {
+.card .link:hover {
   background: linear-gradient(
     0deg,
     rgb(0 0 0 / 90%) 10%,
@@ -40,16 +41,27 @@
   );
   border-radius: 0 0 15px 15px;
 }
-.card a h3.title {
+.card .link h3.title {
   color: white;
   margin: 0;
 }
-.card a div.diets {
+.card .link div.diets {
   color: white;
   font-weight: 100;
   text-transform: capitalize;
 }
-
+.delete {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  cursor: pointer;
+  padding: 1rem 20px;
+  transition: background-color 1s;
+  right: 0;
+}
+.delete:hover {
+  background-color: white;
+}
 @media (max-width: 600px) {
   .card {
     width: 49%;

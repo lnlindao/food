@@ -15,6 +15,15 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+
+      set(value) {
+        this.setDataValue("name", value.toLowerCase());
+      },
+      /*
+      get() {
+        const nameLowercase = this.getDataValue("name");
+        return nameLowercase.toLowerCase();
+      },*/
     },
 
     //Resumen del plato
@@ -38,6 +47,13 @@ module.exports = (sequelize) => {
 
     steps: {
       type: DataTypes.TEXT,
+    },
+
+    toDelete: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return true;
+      },
     },
   });
 };

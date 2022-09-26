@@ -3,6 +3,10 @@ img.loading {
   width: 300px;
   position: relative;
 }
+.loader {
+  text-align: center;
+  width: 100%;
+}
 h1.title,
 h2.title {
   font-family: "Cookie", cursive;

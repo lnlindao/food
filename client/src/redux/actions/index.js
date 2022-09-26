@@ -71,3 +71,11 @@ export const createRecipe = (props) => {
       .then((response) => response);
   };
 };
+
+export const deleteRecipe = (id) => {
+  return function () {
+    return axios
+      .delete(`http://localhost:3001/recipes/delete/${id}`)
+      .then((response) => response);
+  };
+};

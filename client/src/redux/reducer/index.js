@@ -91,6 +91,8 @@ const rootReducer = (state = initialState, action) => {
       };
     case "CREATE_RECIPE":
       return { ...state };
+    case "DELETE_RECIPE":
+      return { ...state };
     default:
       return state;
   }

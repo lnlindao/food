@@ -47,8 +47,8 @@ const RecipeDetail = () => {
                   <img
                     alt="arrow left"
                     src="https://assets-global.website-files.com/5fa5ee97e1eb253b5efc0385/61537f4f2d87afd3cd9b1ce8_arrow-left-2.png"
-                  />{" "}
-                  Regresar
+                  />
+                  Back
                 </button>
               </Link>
               <h2>{name}</h2>
@@ -63,7 +63,7 @@ const RecipeDetail = () => {
               </div>
 
               <div>
-                <strong>Dietas: </strong>
+                <strong>Diets: </strong>
                 {typeof diets !== "string"
                   ? diets.forEach((d) => {
                       //si vienen de la BD vienen como arreglo
@@ -74,20 +74,20 @@ const RecipeDetail = () => {
                 <div>
                   {dishTypes && (
                     <div>
-                      <strong>Tipo de dieta: </strong>
+                      <strong>Tipos de plato: </strong>
                       {dishTypes}
                     </div>
                   )}
                 </div>
                 <div>
                   <p>
-                    <strong>Acerca de este plato:</strong>
+                    <strong>Description:</strong>
                   </p>
                   <div> {summary.replace(/<[^>]+>/g, "")} </div>
                 </div>
                 <div>
                   <p>
-                    <strong>Preparación:</strong>
+                    <strong>Directions:</strong>
                   </p>
                   {Array.isArray(steps)
                     ? steps.map((s, i) => {

@@ -19,6 +19,9 @@ const Home = () => {
   //estado global de todas las recetas
   const allRecipes = useSelector((state) => state.recipes);
 
+  //loader hasta que se cargan las recetas
+  const [loading, setLoading] = useState([true]);
+
   //estado local para realizar el ordenamiento por nombre
   const [sorted, setSortedRecipes] = useState("");
   const [sortedByHealth, setsortedByHealth] = useState("");
@@ -27,7 +30,12 @@ const Home = () => {
 
   //mostrar de nuevo todas las recetas => boton VER TODO
   function getAllRecipesToRender() {
-    dispatch(getAllRecipes());
+    new Promise((res, rej) => {
+      setLoading(true);
+      res(dispatch(getAllRecipes()));
+    }).then(() => {
+      setLoading(false);
+    });
   }
 
   //filtrado por tipo de dieta
@@ -39,14 +47,13 @@ const Home = () => {
   function sortRecipesByName(e) {
     //NO ENTIENDOOOOOOO POR QUE HAY QUE AGREGAR AQUI UN ESTADO QUE NO HACE NADA MAS QUE GUARDAR EL VALUE Y EN EL DE TIPO DE DIETAS NOOOOO
     setSortedRecipes(e.target.value);
-    console.log(sorted);
     dispatch(orderByName(e.target.value));
   }
 
   //ordenamiento por healthScore
   function sortRecipesByHealthScore(e) {
     setsortedByHealth(e.target.value);
-    console.log("sorted", sortedByHealth);
+    console.log("sorted", sorted, sortedByHealth);
     dispatch(orderByHealthScore(e.target.value));
   }
 
@@ -63,14 +70,13 @@ const Home = () => {
   return (
     <div className="container">
       <section id="search">
-        <h2 className="title">¿Qué vas a cocinar hoy?</h2>
-        <Searchbar />
+        <h2 className="title">What do you like to cook today?</h2>
+        <Searchbar setLoading={setLoading} />
       </section>
-
       <section id="controles">
         <div className="derecha">
           <div>
-            Ordenar por nombre:
+            Sort by name:
             <select id="orderByName" onChange={(e) => sortRecipesByName(e)}>
               <option value="none">Seleccionar</option>
               <option value="asc">A-Z</option>
@@ -78,15 +84,16 @@ const Home = () => {
             </select>
           </div>
           <div>
-            Ordenar por saludable:
+            Sort by health score:
             <select onChange={(e) => sortRecipesByHealthScore(e)}>
               <option value="high">Mayor a menor</option>
               <option value="low">Menor a mayor</option>
             </select>
           </div>
           <div>
-            Filtrar por tipo de dieta:
+            Filter by diet type:
             <select onChange={(e) => handleFilterRecipeByDiet(e)}>
+              <option value="all">View all</option>
               {AllDiets.map((t) => {
                 return (
                   <option key={t.id} value={t.name}>
@@ -103,11 +110,16 @@ const Home = () => {
           type="submit"
           onClick={(e) => getAllRecipesToRender()}
         >
-          Ver todo
+          View all
         </button>
       </section>
       <section id="recipesContainer">
-        <RecipeDetailContainer page={page} recipesPerPage={recipesPerPage} />
+        <RecipeDetailContainer
+          loading={loading}
+          setLoading={setLoading}
+          page={page}
+          recipesPerPage={recipesPerPage}
+        />
       </section>
       <section id="paginado">
         <Paging page={page} setPage={setPage} max={max} />

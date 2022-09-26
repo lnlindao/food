@@ -49,7 +49,7 @@ const Controls = () => {
   useEffect(() => {
     //cargo todos los tipos de dieta EN EL INPUT
     dispatch(getAllRecipeTypes());
-  }, [dispatch, sortRecipesByName]);
+  }, [dispatch]);
 
   return (
     <>

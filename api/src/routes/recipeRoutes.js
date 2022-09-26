@@ -3,8 +3,7 @@ const {
   getAllRecipes,
   getAllRecipiesById,
   createNewRecipe,
-  dbRecipes,
-  dbRecipeById,
+  deleteRecipe,
 } = require("../controllers/recipeController");
 
 const router = Router();
@@ -19,14 +18,10 @@ router.get("/", async (req, res, next) => {
     //Si por query viene el parametro de busqueda
     if (name) {
       //Tomo toda la info de la api
-      let allRecipes = await getAllRecipes(name);
-      let foundRecipe = await allRecipes.filter((recipe) =>
-        recipe.name.toLowerCase().includes(name.toLowerCase())
-      );
-
+      let foundRecipes = await getAllRecipes(name);
       res.json(
-        foundRecipe.length > 0
-          ? foundRecipe
+        foundRecipes.length > 0
+          ? foundRecipes
           : `No hay coincidencias para ${name}`
       );
     }
@@ -66,6 +61,17 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     next({ "Post new recipe": error });
   }
+});
+
+/**
+ * ELIMINAR RECETAS DE LA BD
+ */
+router.delete("/delete/:id", async (req, res, next) => {
+  const { id } = req.params;
+  console.log("id", id);
+
+  const recipeToDelete = deleteRecipe(id);
+  res.json({ msg: "Deleted succesfully" });
 });
 
 /**

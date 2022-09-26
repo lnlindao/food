@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Diet, Recipe } = require("../db");
+const { Diet, Recipe, Op } = require("../db");
 const { API_KEY } = require("../db");
 const recetasJsonLocal = require("../../../utils/recetas.json");
 
@@ -11,7 +11,7 @@ const apiRecipes = async () => {
     /*
     let recipes = (
       await axios(
-        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`
+        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
       )
     ).data.results.map((recipe) => ({
       id: recipe.id,
@@ -30,7 +30,7 @@ const apiRecipes = async () => {
         step: element.step,
       })),
     }));
-    */
+*/
     let recipes = await recetasJsonLocal.results.map((recipe) => ({
       id: recipe.id,
       name: recipe.title,
@@ -47,7 +47,6 @@ const apiRecipes = async () => {
         step: element.step,
       })),
     }));
-
     return recipes;
   } catch (error) {
     console.error(error);
@@ -106,19 +105,39 @@ const apiRecipesByName = async (name) => {
 /**
  * CONSULTAR RECETAS DE LA BD
  */
-const dbRecipes = async () => {
+const dbRecipes = async (name) => {
   //consulta que devuleve todas las recetas de la bd
   try {
-    return await Recipe.findAll({
-      include: {
-        model: Diet,
-        as: "diets",
-        attributes: ["name"],
-        through: {
-          attributes: [],
+    if (name) {
+      let nameLower = name.toLowerCase();
+      console.log("name", nameLower);
+      return await Recipe.findAll({
+        where: {
+          name: {
+            [Op.substring]: nameLower,
+          },
         },
-      },
-    });
+        include: {
+          model: Diet,
+          as: "diets",
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      });
+    } else {
+      return await Recipe.findAll({
+        include: {
+          model: Diet,
+          as: "diets",
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      });
+    }
   } catch (error) {
     console.error("Controller error dbRecipes", error);
     return [];
@@ -132,7 +151,7 @@ async function getAllRecipes(name) {
   //si se recibe algun param en la ruta, se va por esta opcion para hacer la consulta necesaria
   if (name) {
     let apiDataByName = await apiRecipesByName(name);
-    let dbData = await dbRecipes();
+    let dbData = await dbRecipes(name);
     const allRecipesJoined = apiDataByName.concat(dbData);
     return allRecipesJoined;
   } //sino recibe params, entonces se va por esta via que no envia ningun parametro a las funciones sino que lee todas las recetas y las devuelve
@@ -252,13 +271,9 @@ const getAllRecipiesById = async (id) => {
  *
  */
 const createNewRecipe = async (params) => {
-  const { name, summary, healthScoreString, image, steps, dietType } = params;
+  const { name, summary, healthScore, image, steps, dietType } = params;
 
-  //si el usuario no ingresa el score, entonces se transforma a null para que pueda guardarse bien la receta
-  healthScoreString === undefined
-    ? (healthScore = null)
-    : (healthScore = parseInt(healthScoreString));
-
+  console.log("healthScore", healthScore);
   //sino se ha recibido name y summary por params entonces retornar msj de error
   if (!name || !summary || !dietType) {
     return "Faltan datos";
@@ -274,6 +289,9 @@ const createNewRecipe = async (params) => {
         image,
         steps,
       });
+
+      console.log("recipeToAdd", recipeToAdd.toJSON());
+
       //  VER todos los METODOS auto creados por sequalize que se pueden utilizar para crear las relaciones entre las tablas --> console.log(recipeToAdd.__proto__);
 
       //recibo por body el tipo de dieta y luego busco en la base si esta exista, si existe, se añade la relaciòn en la tabla intermedia
@@ -287,10 +305,20 @@ const createNewRecipe = async (params) => {
   }
 };
 
+const deleteRecipe = async (id) => {
+  const recipeToDelete = await Recipe.findOne({
+    where: { id: id },
+  });
+  if (recipeToDelete) {
+    await recipeToDelete.destroy(); // deletes the row
+  }
+};
+
 module.exports = {
   getAllRecipes,
   getAllRecipiesById,
   createNewRecipe,
   dbRecipes,
   dbRecipeById,
+  deleteRecipe,
 };
