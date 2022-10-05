@@ -16,10 +16,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
 
+      /*
       set(value) {
         this.setDataValue("name", value.toLowerCase());
       },
-      /*
       get() {
         const nameLowercase = this.getDataValue("name");
         return nameLowercase.toLowerCase();

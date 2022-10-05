@@ -7,6 +7,7 @@ import "./createRecipe.css";
 //recibe los datos de los input y verficia errores
 function validateForm(dataFromInput) {
   //para verificar que solo se ingrese texto y espacios en el nombre de la receta
+  //console.log("dataFromInput", dataFromInput);
   var regex = new RegExp("^[a-zA-Z ]+$");
 
   let errors = {};
@@ -59,8 +60,13 @@ const CreateRecipe = () => {
         ...input,
         [e.target.name]: e.target.value,
       });
-
-      // console.log("input", input);
+      setErrors(
+        validateForm({
+          ...input,
+          [e.target.name]: e.target.value,
+        })
+      );
+      //console.log("input", input);
     }
 
     //comprombar los checkbox
@@ -73,6 +79,12 @@ const CreateRecipe = () => {
           ...input,
           dietType: [...diets, value],
         });
+        setErrors(
+          validateForm({
+            ...input,
+            [e.target.name]: [...diets, value],
+          })
+        );
       }
       // Case 2 : el usuario quita el check
       else {
@@ -80,15 +92,15 @@ const CreateRecipe = () => {
           ...input,
           dietType: diets.filter((e) => e !== value),
         });
+        setErrors(
+          validateForm({
+            ...input,
+            [e.target.name]: diets.filter((e) => e !== value),
+          })
+        );
+        //console.log(input);
       }
     }
-
-    setErrors(
-      validateForm({
-        ...input,
-        [e.target.name]: e.target.value,
-      })
-    );
   };
 
   //envio del formulario
@@ -120,7 +132,7 @@ const CreateRecipe = () => {
   useEffect(() => {
     dispatch(getAllRecipeTypes());
     setErrors({ errors: "" });
-  }, [dispatch]);
+  }, [dispatch, setErrors]);
 
   return (
     <div className="container">

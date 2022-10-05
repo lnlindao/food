@@ -86,8 +86,8 @@ const Home = () => {
           <div>
             Sort by health score:
             <select onChange={(e) => sortRecipesByHealthScore(e)}>
-              <option value="high">Mayor a menor</option>
-              <option value="low">Menor a mayor</option>
+              <option value="high">High to low</option>
+              <option value="low">Low to high</option>
             </select>
           </div>
           <div>

@@ -29,7 +29,6 @@ const RecipeDetailContainer = ({
 
   return (
     <>
-      {console.log("allRecipes", allRecipes.length)}
       {loading ? (
         <div className="loader">
           <div>
@@ -57,6 +56,7 @@ const RecipeDetailContainer = ({
                   diets={element.diets}
                   healthScore={element.healthScore}
                   toDelete={element.toDelete}
+                  dishTypes={element.dishTypes}
                 />
               );
             })

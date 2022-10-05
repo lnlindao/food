@@ -1,8 +1,9 @@
 import axios from "axios";
+const host = "http://localhost:3001";
 
 export const getAllRecipes = () => {
   return function (dispatch) {
-    return axios(`http://localhost:3001/recipes`)
+    return axios(`${host}/recipes`)
       .then((response) => response.data)
       .then((recipes) => {
         dispatch({ type: "GET_ALL_RECIPES", payload: recipes });
@@ -13,7 +14,7 @@ export const getAllRecipes = () => {
 export const getRecipeDetail = (recipeId) => {
   return function (dispatch) {
     return (
-      axios(`http://localhost:3001/recipes/${recipeId}`)
+      axios(`${host}/recipes/${recipeId}`)
         //.then((response) => console.log("response.data", response.json()))
         .then((response) => response.data)
         .then((recipeDetails) => {
@@ -25,7 +26,7 @@ export const getRecipeDetail = (recipeId) => {
 
 export const getAllRecipeTypes = () => {
   return function (dispatch) {
-    return axios(`http://localhost:3001/diets`)
+    return axios(`${host}/diets`)
       .then((r) => r.data)
       .then((diets) => {
         dispatch({ type: "GET_ALL_DIETS", payload: diets });
@@ -56,7 +57,7 @@ export const orderByHealthScore = (value) => {
 
 export const SearchByName = (name) => {
   return function (dispatch) {
-    return axios(`http://localhost:3001/recipes?name=${name}`)
+    return axios(`${host}/recipes?name=${name}`)
       .then((r) => r.data)
       .then((recipeFound) => {
         dispatch({ type: "SEARCH_DIET_BY_NAME", payload: recipeFound });
@@ -66,16 +67,14 @@ export const SearchByName = (name) => {
 
 export const createRecipe = (props) => {
   return function () {
-    return axios
-      .post(`http://localhost:3001/recipes`, props)
-      .then((response) => response);
+    return axios.post(`${host}/recipes`, props).then((response) => response);
   };
 };
 
 export const deleteRecipe = (id) => {
   return function () {
     return axios
-      .delete(`http://localhost:3001/recipes/delete/${id}`)
+      .delete(`${host}/recipes/delete/${id}`)
       .then((response) => response);
   };
 };

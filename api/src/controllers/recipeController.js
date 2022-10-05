@@ -46,8 +46,7 @@ const apiRecipes = async () => {
         step: element.step,
       })),
     }));
-    */
-
+*/
     return recipes;
   } catch (error) {
     console.error(error);
@@ -110,14 +109,7 @@ const dbRecipes = async (name) => {
   //consulta que devuleve todas las recetas de la bd
   try {
     if (name) {
-      let nameLower = name.toLowerCase();
-      console.log("name", nameLower);
-      return await Recipe.findAll({
-        where: {
-          name: {
-            [Op.substring]: nameLower,
-          },
-        },
+      let recipes = await Recipe.findAll({
         include: {
           model: Diet,
           as: "diets",
@@ -127,6 +119,10 @@ const dbRecipes = async (name) => {
           },
         },
       });
+      let found = await recipes.filter((e) =>
+        e.name.toLowerCase().includes(name.toString().toLowerCase())
+      );
+      return found;
     } else {
       return await Recipe.findAll({
         include: {
@@ -274,7 +270,7 @@ const getAllRecipiesById = async (id) => {
 const createNewRecipe = async (params) => {
   const { name, summary, healthScore, image, steps, dietType } = params;
 
-  console.log("healthScore", healthScore);
+  //console.log("healthScore", healthScore);
   //sino se ha recibido name y summary por params entonces retornar msj de error
   if (!name || !summary || !dietType) {
     return "Faltan datos";
@@ -291,7 +287,7 @@ const createNewRecipe = async (params) => {
         steps,
       });
 
-      console.log("recipeToAdd", recipeToAdd.toJSON());
+      // console.log("recipeToAdd", recipeToAdd.toJSON());
 
       //  VER todos los METODOS auto creados por sequalize que se pueden utilizar para crear las relaciones entre las tablas --> console.log(recipeToAdd.__proto__);
 

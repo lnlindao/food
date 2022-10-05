@@ -85,23 +85,25 @@ const RecipeDetail = () => {
                   </p>
                   <div> {summary.replace(/<[^>]+>/g, "")} </div>
                 </div>
-                <div>
-                  <p>
-                    <strong>Directions:</strong>
-                  </p>
-                  {Array.isArray(steps)
-                    ? steps.map((s, i) => {
-                        return (
-                          <div key={i}>
-                            <span className="stepNumber">
-                              <strong>{s.number}. </strong>
-                            </span>
-                            <span className="stepText">{s.step}</span>
-                          </div>
-                        );
-                      })
-                    : steps}
-                </div>
+                {steps && (
+                  <div>
+                    <p>
+                      <strong>Directions:</strong>
+                    </p>
+                    {Array.isArray(steps)
+                      ? steps.map((s, i) => {
+                          return (
+                            <div key={i}>
+                              <span className="stepNumber">
+                                <strong>{s.number}. </strong>
+                              </span>
+                              <span className="stepText">{s.step}</span>
+                            </div>
+                          );
+                        })
+                      : steps}
+                  </div>
+                )}
               </div>
             </section>
           </div>

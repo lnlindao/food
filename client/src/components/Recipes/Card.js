@@ -36,7 +36,11 @@ const Card = (data) => {
     }
   };
 
-  const { image, name, diets, id, healthScore, toDelete } = data;
+  const { image, name, diets, id, healthScore, toDelete, dishTypes } = data;
+
+  {
+    console.log("dishTypes antes", dishTypes);
+  }
   return (
     <div
       onClick={() => goToDetail(id)}
@@ -57,8 +61,10 @@ const Card = (data) => {
           </div>
         )}
         <h3 className="title">{name}</h3>
+        {console.log("dishTypes", dishTypes)}
         <div className="diets">
           {Array.isArray(diets) ? dietsDb(diets) : diets}
+
           <p>HS: {healthScore}</p>
         </div>
       </div>
