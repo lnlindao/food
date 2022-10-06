@@ -58,7 +58,6 @@ const Card = (data) => {
           </div>
         )}
         <h3 className="title">{name}</h3>
-        {console.log("dishTypes", dishTypes)}
         <div className="diets">
           {Array.isArray(diets) ? dietsDb(diets) : diets}
 
