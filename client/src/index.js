@@ -11,8 +11,6 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import axios from "axios";
 
-//VARIABLES DE ENTORNO
-RAILWAY_STATIC_URL;
 //axios.defaults.baseURL =  process.env.RAILWAY_STATIC_URL || "http://localhost:3001";
 axios.defaults.baseURL =
   "https://recipes-api-production-733b.up.railway.app/" ||
