@@ -1,8 +1,8 @@
 import axios from "axios";
-const { RAILWAY_STATIC_URL } = process.env;
+const { VARIABLE_NEW } = process.env;
 
 export const getAllRecipes = () => {
-  console.log("process.env.REACT_APP_API", RAILWAY_STATIC_URL);
+  console.log("process.env.REACT_APP_API", VARIABLE_NEW);
   return function (dispatch) {
     return axios(`/recipes`)
       .then((response) => response.data)
