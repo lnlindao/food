@@ -22,7 +22,6 @@ const Card = (data) => {
   };
   const deleteRecipeById = (e, id) => {
     e.stopPropagation();
-    // console.log("id", id);
     //dispatch(deleteRecipe(id));
     if (
       window.confirm("Are you sure you want to delete the recipe?") === true
@@ -36,7 +35,7 @@ const Card = (data) => {
     }
   };
 
-  const { image, name, diets, id, healthScore, toDelete, dishTypes } = data;
+  const { image, name, diets, id, healthScore, toDelete } = data;
 
   return (
     <div
