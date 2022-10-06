@@ -1,8 +1,7 @@
 # Recipes project v1
 
 <p>
-  <img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/768px-React-icon.svg.png?20220125121207" />&nbsp;&nbsp;<img height="40" src="https://e7.pngegg.com/pngimages/413/852/png-clipart-redux-react-logo-javascript-dq-purple-violet-thumbnail.png" /> &nbsp;&nbsp;<img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/300px-Postgresql_elephant.svg.png" /> &nbsp;&nbsp;<img height="40" src="
-  https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Node.js_logo_2015.svg/887px-Node.js_logo_2015.svg.png?20150315010906" />
+  <img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/768px-React-icon.svg.png?20220125121207" />&nbsp;&nbsp;<img height="40" src="https://e7.pngegg.com/pngimages/413/852/png-clipart-redux-react-logo-javascript-dq-purple-violet-thumbnail.png" /> &nbsp;&nbsp;<img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/300px-Postgresql_elephant.svg.png" /> &nbsp;&nbsp;<img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Node.js_logo_2015.svg/887px-Node.js_logo_2015.svg.png?20150315010906" />
 </p>
 
 ## Objetivos del Proyecto
