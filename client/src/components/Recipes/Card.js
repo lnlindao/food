@@ -38,9 +38,6 @@ const Card = (data) => {
 
   const { image, name, diets, id, healthScore, toDelete, dishTypes } = data;
 
-  {
-    console.log("dishTypes antes", dishTypes);
-  }
   return (
     <div
       onClick={() => goToDetail(id)}
