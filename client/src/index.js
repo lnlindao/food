@@ -3,10 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+dotenv.config();
 
 //REDUX
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import axios from "axios";
+
+//VARIABLES DE ENTORNO
+axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3000";
 
 ReactDOM.render(
   <Provider store={store}>

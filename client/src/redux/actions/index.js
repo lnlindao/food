@@ -1,9 +1,8 @@
 import axios from "axios";
-const host = "http://localhost:3001";
 
 export const getAllRecipes = () => {
   return function (dispatch) {
-    return axios(`${host}/recipes`)
+    return axios(`/recipes`)
       .then((response) => response.data)
       .then((recipes) => {
         dispatch({ type: "GET_ALL_RECIPES", payload: recipes });
@@ -14,7 +13,7 @@ export const getAllRecipes = () => {
 export const getRecipeDetail = (recipeId) => {
   return function (dispatch) {
     return (
-      axios(`${host}/recipes/${recipeId}`)
+      axios(`/recipes/${recipeId}`)
         //.then((response) => console.log("response.data", response.json()))
         .then((response) => response.data)
         .then((recipeDetails) => {
@@ -26,7 +25,7 @@ export const getRecipeDetail = (recipeId) => {
 
 export const getAllRecipeTypes = () => {
   return function (dispatch) {
-    return axios(`${host}/diets`)
+    return axios(`/diets`)
       .then((r) => r.data)
       .then((diets) => {
         dispatch({ type: "GET_ALL_DIETS", payload: diets });
@@ -57,7 +56,7 @@ export const orderByHealthScore = (value) => {
 
 export const SearchByName = (name) => {
   return function (dispatch) {
-    return axios(`${host}/recipes?name=${name}`)
+    return axios(`/recipes?name=${name}`)
       .then((r) => r.data)
       .then((recipeFound) => {
         dispatch({ type: "SEARCH_DIET_BY_NAME", payload: recipeFound });
@@ -67,14 +66,12 @@ export const SearchByName = (name) => {
 
 export const createRecipe = (props) => {
   return function () {
-    return axios.post(`${host}/recipes`, props).then((response) => response);
+    return axios.post(`/recipes`, props).then((response) => response);
   };
 };
 
 export const deleteRecipe = (id) => {
   return function () {
-    return axios
-      .delete(`${host}/recipes/delete/${id}`)
-      .then((response) => response);
+    return axios.delete(`/recipes/delete/${id}`).then((response) => response);
   };
 };
