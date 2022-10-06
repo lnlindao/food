@@ -34,7 +34,7 @@ const RecipeDetail = () => {
         return loading ? (
           <div key={id} className="loader">
             <img
-              src={`"https://recipes-client-production.up.railway.app/uploads/loading1.gif`}
+              src={`https://recipes-client-production.up.railway.app/uploads/loading1.gif`}
               className="loading"
               alt="logo"
             />
