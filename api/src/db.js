@@ -2,8 +2,7 @@ require("dotenv").config();
 const { Sequelize, Op } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST, API_KEY, DB_NAME, DATABASE_URL } =
-  process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, API_KEY, DB_NAME } = process.env;
 
 /**
  * CONEXION CON LA BD EN PRODUCCION
@@ -11,7 +10,6 @@ const { DB_USER, DB_PASSWORD, DB_HOST, API_KEY, DB_NAME, DATABASE_URL } =
 let sequelize =
   process.env.NODE_ENV === "production"
     ? new Sequelize({
-        /*
         database: DB_NAME,
         dialect: "postgres",
         host: DB_HOST,
@@ -31,8 +29,6 @@ let sequelize =
           keepAlive: true,
         },
         ssl: true,
-        */
-        DATABASE_URL,
       })
     : new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/food`, {
         logging: false, // set to console.log to see the raw SQL queries
