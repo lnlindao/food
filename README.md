@@ -7,9 +7,9 @@
 
 ## Project goals
 
-- Construir una App utlizando React, Redux, Node y Sequelize.
-- Aprender mejores prácticas.
-- Aprender y practicar el workflow de GIT.
+- Build an App using React, Redux, Node and Sequelize.
+- Learn best practices.
+- Learn and practice the GIT workflow.
 
 ## Summary
 The general idea is to create an application in which you can see different food recipes along with relevant information about them using the external api [spoonacular](https://spoonacular.com/food-api) and from there you can, among other things:
