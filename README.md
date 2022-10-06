@@ -1,7 +1,7 @@
 # Recipes project v1
 
-<p align="right">
-  <img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/768px-React-icon.svg.png?20220125121207" />
+<p>
+  <img height="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/768px-React-icon.svg.png?20220125121207" /><img height="40" src="https://e7.pngegg.com/pngimages/413/852/png-clipart-redux-react-logo-javascript-dq-purple-violet-thumbnail.png" />
 </p>
 
 ## Objetivos del Proyecto
