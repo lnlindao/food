@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getAllRecipes = () => {
-  console.log("process.env.REACT_APP_API", process.env.REACT_APP_API);
+  console.log("process.env.REACT_APP_API", process.env.RAILWAY_STATIC_URL);
   return function (dispatch) {
     return axios(`/recipes`)
       .then((response) => response.data)
