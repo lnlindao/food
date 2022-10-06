@@ -8,6 +8,6 @@ const port = process.env.PORT || 3333;
 conn.sync({ force: true }).then(() => {
   server.listen(port, async () => {
     await fillDatabase();
-    console.log("%s listening at 3001"); // eslint-disable-line no-console
+    console.log(`%s listening at ${port}`); // eslint-disable-line no-console
   });
 });
