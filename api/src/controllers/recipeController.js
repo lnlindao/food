@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { Diet, Recipe, Op } = require("../db");
 const { API_KEY } = require("../db");
-const recetasJsonLocal = require("../../../utils/recetas.json");
+//const recetasJsonLocal = require("../../../utils/recetas.json");
 
 /**
  * CONSULTAR TODAS LAS RECETAS DE LA API
